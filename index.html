@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BMI Logger</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="header">
+    <h1>BMI Logger</h1>
+    <nav class="nav">
+      <a href="#calculate" data-route>คำนวณ</a>
+      <a href="#logs" data-route>บันทึก</a>
+      <a href="#summary" data-route>สรุป</a>
+      <a href="#settings" data-route>ตั้งค่า</a>
+    </nav>
+  </header>
+
+  <main id="app">
+    <section id="view-calculate" class="view">
+      <div class="card">
+        <h2>คำนวณ BMI</h2>
+        <form id="calc-form">
+          <div class="grid">
+            <label>น้ำหนัก
+              <input type="number" step="0.1" id="weight" required>
+            </label>
+            <label>ส่วนสูง
+              <input type="number" step="0.1" id="height" required>
+            </label>
+          </div>
+          <div class="actions">
+            <button type="submit" id="btn-calc">คำนวณ</button>
+            <button type="button" id="btn-save" disabled>บันทึก</button>
+          </div>
+        </form>
+        <div id="calc-result" class="result">
+          <div class="result-item">
+            <span>BMI</span>
+            <strong id="bmi-value">-</strong>
+          </div>
+          <div class="result-item">
+            <span>หมวดหมู่</span>
+            <strong id="bmi-category">-</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-logs" class="view hidden">
+      <div class="card">
+        <div class="row">
+          <h2>บันทึก</h2>
+          <div class="row-actions">
+            <button id="btn-export">ส่งออก CSV</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+        <table id="logs-table">
+          <thead>
+            <tr>
+              <th>วันที่</th>
+              <th>น้ำหนัก</th>
+              <th>ส่วนสูง</th>
+              <th>BMI</th>
+              <th>หมายเหตุ</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        </div>
+        <details class="inline-form">
+          <summary>เพิ่มรายการ</summary>
+          <form id="add-form">
+            <div class="grid">
+              <label>วันที่
+                <input type="date" id="add-date" required>
+              </label>
+              <label>น้ำหนัก
+                <input type="number" step="0.1" id="add-weight" required>
+              </label>
+              <label>ส่วนสูง
+                <input type="number" step="0.1" id="add-height" required>
+              </label>
+              <label>หมายเหตุ
+                <input type="text" id="add-note" maxlength="200">
+              </label>
+            </div>
+            <div class="actions">
+              <button type="submit">เพิ่ม</button>
+            </div>
+          </form>
+        </details>
+      </div>
+    </section>
+
+    <section id="view-summary" class="view hidden">
+      <div class="card">
+        <div class="row">
+          <h2>สรุป</h2>
+          <div class="row-actions">
+            <select id="range">
+              <option value="30">30 วัน</option>
+              <option value="90">90 วัน</option>
+              <option value="365" selected>365 วัน</option>
+              <option value="all">ทั้งหมด</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="stats">
+            <div class="stat"><span>เฉลี่ย</span><strong id="avg-bmi">-</strong></div>
+            <div class="stat"><span>ต่ำสุด</span><strong id="min-bmi">-</strong></div>
+            <div class="stat"><span>สูงสุด</span><strong id="max-bmi">-</strong></div>
+          </div>
+          <canvas id="bmi-chart" height="140"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-settings" class="view hidden">
+      <div class="card">
+        <h2>ตั้งค่า</h2>
+        <form id="settings-form">
+          <div class="grid">
+            <fieldset>
+              <legend>หน่วย</legend>
+              <label class="radio"><input type="radio" name="unit" value="metric"> กก./ซม.</label>
+              <label class="radio"><input type="radio" name="unit" value="imperial"> ปอนด์/นิ้ว</label>
+            </fieldset>
+            <fieldset>
+              <legend>ธีม</legend>
+              <label class="radio"><input type="radio" name="theme" value="light"> สว่าง</label>
+              <label class="radio"><input type="radio" name="theme" value="dark"> มืด</label>
+            </fieldset>
+          </div>
+          <div class="actions">
+            <button type="submit">บันทึกการตั้งค่า</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>โหมดเดโม เก็บข้อมูลในเครื่อง</small>
+  </footer>
+
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>
